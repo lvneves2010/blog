@@ -3,33 +3,15 @@
     <section class="intro">
       <h1>Get the latest tech news!!</h1>
     </section>
-    <section class="featured-posts">
-      <nuxt-link :to="'/posts/' + 1" class="post-preview">
-        <article>
-          <div class="post-thumbnail"></div>
-          <div class="post-content">
-            <h1>Post Title</h1>
-            <p>preview text</p>
-          </div>
-        </article>
-      </nuxt-link>
-      <nuxt-link :to="'/posts/' + 2" class="post-preview">
-        <article>
-          <div class="post-thumbnail"></div>
-          <div class="post-content">
-            <h1>Post Title 2</h1>
-            <p>preview text</p>
-          </div>
-        </article>
-      </nuxt-link>
-    </section>
+    <PostList />
   </div>
 </template>
 
 <script>
-
+import PostList from '@/components/Posts/PostList'
 export default {
   components: {
+    PostList
   }
 }
 </script>
@@ -40,6 +22,7 @@ export default {
   position: relative;
   padding: 30px;
   box-sizing: border-box;
+  background-image: url('~assets/images/desktop.jpeg');
   background-position: center;
   background-size: cover;
 }
@@ -74,40 +57,4 @@ export default {
   justify-content: center;
 }
 
-.post-preview {
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 2px #ccc;
-  background-color: white;
-  width: 90%;
-}
-
-a {
-  text-decoration: none;
-  color: black;
-}
-
-@media (min-width: 850px) {
-  .post-preview {
-    width: 400px;
-    margin: 10px;
-  }
-}
-
-.post-thumbnail {
-  width: 100%;
-  height: 200px;
-  background-image: url('https://www.managedhealthcareexecutive.com/sites/default/files/Technology%20Power%20Button_2.png');
-  background-position: center;
-  background-size: cover;
-}
-
-.post-content {
-  padding: 10px;
-  text-align: center;
-}
-
-a:hover .post-content,
-a:active .post-content {
-  background-color: #ccc;
-}
 </style>
