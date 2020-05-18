@@ -1,17 +1,13 @@
 <template>
     <section class="post-list">
-      <PostPreview 
-      id="1"
+      <PostPreview
+      v-for="post in posts" :key="post.id" 
+      :id="post.id"
       :is-admin="isAdmin"
-      title="Hello there"
-      previewText="First Post"
-      thumbnail="https://static.vecteezy.com/system/resources/previews/000/518/613/non_2x/abstract-technology-background-concept-circle-circuit-digital-metal-blue-on-hi-tech-future-design-vector.jpg"/>
-      <PostPreview 
-      id="2"
-      :is-admin="isAdmin"
-      title="Hi there"
-      previewText="Second Post"
-      thumbnail="https://www.managedhealthcareexecutive.com/sites/default/files/Technology%20Power%20Button_2.png" />
+      :title="post.title"
+      :previewText="post.previewText"
+      :thumbnail="post.thumbnail"/>
+      <!-- thumbnail="https://static.vecteezy.com/system/resources/previews/000/518/613/non_2x/abstract-technology-background-concept-circle-circuit-digital-metal-blue-on-hi-tech-future-design-vector.jpg"/> -->
     </section>
 </template>
 
@@ -25,6 +21,10 @@ export default {
     isAdmin : {
       type: Boolean,
       default: false
+    },
+    posts: {
+      type: Array,
+      required: true
     }
   }
 }

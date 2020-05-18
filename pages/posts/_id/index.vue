@@ -1,12 +1,12 @@
 <template>
   <div class="single-post-page">
       <section class="post">
-          <h1 class="post-title">Title for the post</h1>
+          <h1 class="post-title">{{loadedPost.title}}</h1>
           <div class="post-details">
-              <div class="post-detail">Last Updated</div>
-              <div class="post-detail">Writen By:</div>
+            <div class="post-detail">Last Upadted on: {{loadedPost.updatedDate}}</div>
+              <div class="post-detail">Writen By: {{loadedPost.author}} </div>
           </div>
-          <p class="post-content">Content of the Post</p>
+          <p class="post-content">{{loadedPost.content}}</p>
       </section>
       <section class="post-feedback">
           <p>Let your comment here <a href="mailto: lvneves2010@gmail.com">lvneves2010@gmail.com</a> </p>
@@ -16,7 +16,21 @@
 
 <script>
 export default {
-
+  asyncData(context, callback) {
+    setTimeout(() => {
+      callback(null, {
+        loadedPost: {
+          id: '1',
+          title: ' The First Post (Id: ' + context.route.params.id + ')',
+          previewText: 'this is  the first post',
+          author: 'Leonardo Neves',
+          updatedDate: new Date(),
+          content: 'Some dummy text thats is not the preview',
+          thumbnail: 'https://static.vecteezy.com/system/resources/previews/000/518/613/non_2x/abstract-technology-background-concept-circle-circuit-digital-metal-blue-on-hi-tech-future-design-vector.jpg'
+          }
+      })
+    }, 1500)
+  },
 }
 </script>
 
