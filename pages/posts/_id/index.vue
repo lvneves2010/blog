@@ -3,7 +3,7 @@
       <section class="post">
           <h1 class="post-title">{{loadedPost.title}}</h1>
           <div class="post-details">
-            <div class="post-detail">Last Upadted on: {{loadedPost.updatedDate}}</div>
+            <div class="post-detail">Last Upadted on: {{ loadedPost.updatedDate | date }}</div>
               <div class="post-detail">Writen By: {{loadedPost.author}} </div>
           </div>
           <p class="post-content">{{loadedPost.content}}</p>
@@ -15,22 +15,17 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-          id: '1',
-          title: ' The First Post (Id: ' + context.route.params.id + ')',
-          previewText: 'this is  the first post',
-          author: 'Leonardo Neves',
-          updatedDate: new Date(),
-          content: 'Some dummy text thats is not the preview',
-          thumbnail: 'https://static.vecteezy.com/system/resources/previews/000/518/613/non_2x/abstract-technology-background-concept-circle-circuit-digital-metal-blue-on-hi-tech-future-design-vector.jpg'
-          }
-      })
-    }, 1500)
-  },
+  asyncData(context) {
+    return axios.get(process.env.baseUrl + '/posts/' + context.params.id + '.json')
+    .then(res => {
+      return {
+        loadedPost: res.data
+      }
+    })
+    .catch(e => context.error(e))
+  }
 }
 </script>
 

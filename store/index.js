@@ -1,4 +1,6 @@
 import Vuex from 'vuex'
+import axios from 'axios'
+
 
 const createStore = () => {
     return new Vuex.Store({
@@ -8,31 +10,38 @@ const createStore = () => {
         mutations: {
             setPosts(state, posts) {
                 state.loadedPosts = posts
+            },
+            addPost(state, post) {
+                state.loadedPosts.push(post)
+            },
+            editPost(state, editedPost) {
+                const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id )
+                state.loadedPosts[postIndex] = editedPost
             }
         },
         actions: {
             nuxtServerInit( vuexContext, context ) {
-                return new Promise((res, rej) =>{
-                  setTimeout(() => {
-                    vuexContext.commit( 'setPosts', [
-                          {
-                          id: '1',
-                          title: ' The First Post',
-                          previewText: 'this is  the first post',
-                          thumbnail: 'https://static.vecteezy.com/system/resources/previews/000/518/613/non_2x/abstract-technology-background-concept-circle-circuit-digital-metal-blue-on-hi-tech-future-design-vector.jpg'
-                          },
-                          {
-                          id: '2',
-                          title: 'Second Post',
-                          previewText: 'this is  the second post',
-                          thumbnail: 'https://www.managedhealthcareexecutive.com/sites/default/files/Technology%20Power%20Button_2.png'
-                          }
-                        ]
-                    )
-                    res()
-                  }, 1500)
+                return axios.get(process.env.baseUrl + '/posts.json')
+                .then(res => {
+                    const postsArray = []
+                    for ( const key in res.data ) {
+                        postsArray.push({...res.data[key], id: key})
+                    }
+                    vuexContext.commit( 'setPosts', postsArray )
                 })
+                .catch(e => console.log(e))
             },
+            addPost(vuexContext, post) {
+                const createdPost = {...post, updatedDate: new Date()}
+                return axios.post('https://leon-nuxt-blog.firebaseio.com/posts.json', createdPost)
+                .then(res => {
+                    vuexContext.commit( 'addPost', {...createdPost, id: res.data.name} )
+                })
+                .catch(e => console.log(e))},
+            editPost(vuexContext, editedPost) {
+                return axios.put('https://leon-nuxt-blog.firebaseio.com/posts/' + editedPost.id + '.json', editedPost)
+                .then(res => vuexContext.commit( 'editPost', editedPost ) )
+                .catch(e =>console.log(e))},
             setPosts(vuexContext, posts) {
                 vuexContext.commit( 'setPosts', posts )
             }
