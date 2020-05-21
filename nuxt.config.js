@@ -53,8 +53,7 @@ export default {
     extend (config, ctx) {
     }
   }, env: {
-    baseUrl: process.env.BASE_URL || 'https://leon-nuxt-blog.firebaseio.com',
-    fireBApiKey: 'AIzaSyA-jCkAlPrWZbdUbP2m0SrVlcMYgH8oTVI'
+    baseUrl: process.env.BASE_URL || 'https://leon-nuxt-blog.firebaseio.com'
   },
   transition: {
     name: 'fade',

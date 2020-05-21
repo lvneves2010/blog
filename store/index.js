@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import axios from 'axios'
 
+const { fireBApiKey } = require( '../.env' )
 
 const createStore = () => {
     return new Vuex.Store({
@@ -51,7 +52,7 @@ const createStore = () => {
             },
             authenticateUser(vuexContext, authData) {
                 if(!authData.isLogin){
-                  return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + process.env.fireBApiKey, {
+                  return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + fireBApiKey, {
                   email: authData.email,
                   password: authData.password,
                   returnSecureToken: true  
@@ -61,7 +62,7 @@ const createStore = () => {
                       vuexContext.commit( 'setToken', res.idToken)})
                   .catch(e => console.log('deu ruim s token', e))
                 } else {
-                  return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + process.env.fireBApiKey, {
+                  return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + fireBApiKey, {
                   email: authData.email,
                   password: authData.password,
                   returnSecureToken: true 
