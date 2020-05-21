@@ -1,3 +1,5 @@
+const pkg = require('./package')
+
 
 export default {
   mode: 'universal',
@@ -5,7 +7,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: pkg.name || '',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -61,5 +63,8 @@ export default {
   },
   router: {
     // middleware: 'log'
+  },
+  serverMiddleware: {
+    
   }
 }

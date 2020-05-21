@@ -37,7 +37,6 @@ export default {
         password: this.password
       } )
       .then(() => {
-        console.log('passei aqui>>>>')
         this.$router.push('/admin')
       })
     }
