@@ -53,10 +53,14 @@ export default {
     extend (config, ctx) {
     }
   }, env: {
-    baseUrl: process.env.BASE_URL || 'https://leon-nuxt-blog.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://leon-nuxt-blog.firebaseio.com',
+    fireBApiKey: 'AIzaSyA-jCkAlPrWZbdUbP2m0SrVlcMYgH8oTVI'
   },
   transition: {
     name: 'fade',
     mode: 'out-in'
+  },
+  router: {
+    // middleware: 'log'
   }
 }

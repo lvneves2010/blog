@@ -11,6 +11,7 @@ import TheHeader from '../components/Navigation/TheHeader'
 import TheSidenav from '../components/Navigation/TheSidenav'
 export default {
    name: 'deafaultLayout',
+  //  middleware: 'log',
    components: {
      TheHeader,
      TheSidenav

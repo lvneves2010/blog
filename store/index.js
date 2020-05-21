@@ -5,7 +5,8 @@ import axios from 'axios'
 const createStore = () => {
     return new Vuex.Store({
         state: {
-            loadedPosts: []
+            loadedPosts: [],
+            token: null
         },
         mutations: {
             setPosts(state, posts) {
@@ -17,6 +18,9 @@ const createStore = () => {
             editPost(state, editedPost) {
                 const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id )
                 state.loadedPosts[postIndex] = editedPost
+            },
+            setToken(state, token) {
+                state.token = token
             }
         },
         actions: {
@@ -44,6 +48,29 @@ const createStore = () => {
                 .catch(e =>console.log(e))},
             setPosts(vuexContext, posts) {
                 vuexContext.commit( 'setPosts', posts )
+            },
+            authenticateUser(vuexContext, authData) {
+                if(!authData.isLogin){
+                  return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + process.env.fireBApiKey, {
+                  email: authData.email,
+                  password: authData.password,
+                  returnSecureToken: true  
+                  })
+                  .then((res) => {
+                      console.log('sem token>>>', res.idToken)
+                      vuexContext.commit( 'setToken', res.idToken)})
+                  .catch(e => console.log('deu ruim s token', e))
+                } else {
+                  return axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + process.env.fireBApiKey, {
+                  email: authData.email,
+                  password: authData.password,
+                  returnSecureToken: true 
+                  })
+                  .then((res) => {
+                    console.log('com token>>>', res.data.idToken)
+                    vuexContext.commit( 'setToken', res.data.idToken)})
+                  .catch(e => console.log('deu ruim c token', e))
+                }
             }
         },
         getters: {
