@@ -71,7 +71,10 @@ const createStore = () => {
                       localStorage.setItem( 'tokenExpiration', new Date().getTime() + Number.parseInt( res.data.expiresIn ) * 1000)
                       Cookie.set('jwt', res.data.idToken)
                       Cookie.set('expirationDate', new Date().getTime() + Number.parseInt( res.data.expiresIn ) * 1000)
+                      return axios.post('http://localhost:3000/api/track-data', {
+                          data: 'Authenticated'
                       })
+                  })
                   .catch(e => console.log(e))
             },
             initAuth(vuexContext, req) {
@@ -87,14 +90,9 @@ const createStore = () => {
                     }
                     token = jwtCookie.split('=')[1];
                     expirationDate = req.headers.cookie.split(';').find( c => c.trim().startsWith('expirationDate=') ).split('=')[1]
-                } else {
-                    if(localStorage){ 
+                } else if(process.client) {
                     token = localStorage.getItem("token");
                     expirationDate = localStorage.getItem("tokenExpiration");
-                    } else {
-                        token = null
-                        expirationDate = null
-                    }
                 }
                 if(new Date().getTime() > +expirationDate || !token) {
                     console.log('No token or invalid token')

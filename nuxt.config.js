@@ -1,4 +1,6 @@
 const pkg = require('./package')
+const bodyParser =  require('body-parser')
+const axios = require('axios')
 
 
 export default {
@@ -7,15 +9,20 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: pkg.name || '',
+    title: 'Leon - Web Development Blog',
+    htmlAttrs: {
+      lang: 'en'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: 'application developer resume sites profissionais aplicativos desenvolvedor JavaScript Angular VueJS SEO NodeJS programação cloud programador web' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap' },
+      { rel: 'apple-touch-icon', sizes: '57x57', href: '/touch-icon-iphone.png' },
+      { rel: 'apple-touch-icon', sizes: '114x114', href: '/touch-icon-ipad.png' },
     ]
   },
   /*
@@ -64,7 +71,20 @@ export default {
   router: {
     // middleware: 'log'
   },
-  serverMiddleware: {
-    
+  serverMiddleware: [
+    bodyParser.json(),
+    '~/api'  
+  ],
+  generate: {
+    routes: function() {
+      return axios.get('https://leon-nuxt-blog.firebaseio.com/posts.json')
+      .then(res => {
+        const routes = []
+        for (const key in res.data) {
+          routes.push('/posts/' + key)
+        }
+        return routes
+      })
+    }
   }
 }

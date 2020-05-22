@@ -4,7 +4,7 @@
         <div class="post-thumbnail"
         :style="{backgroundImage: 'url(' + thumbnail + ')'}"></div>
         <div class="post-content">
-        <h1>{{ title }}</h1>
+        <h2>{{ title }}</h2>
         <p>{{previewText}}</p>
         </div>
     </article>
