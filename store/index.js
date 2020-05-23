@@ -21,6 +21,10 @@ const createStore = () => {
                 const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id )
                 state.loadedPosts[postIndex] = editedPost
             },
+            deletePost(state, deletedPost) {
+                const postIndex = state.loadedPosts.findIndex(post => post.id === deletedPost.id )
+                state.loadedPosts.splice(postIndex, 1)
+            },
             setToken(state, token) {
                 state.token = token
             },
@@ -52,6 +56,11 @@ const createStore = () => {
                 return axios.put('https://leon-nuxt-blog.firebaseio.com/posts/' + editedPost.id + '.json?auth=' + vuexContext.state.token, editedPost)
                 .then(res => vuexContext.commit( 'editPost', editedPost ) )
                 .catch(e =>console.log(e))},
+            deletePost(vuexContext, deletedPost) {
+                return axios.delete('https://leon-nuxt-blog.firebaseio.com/posts/' + deletedPost.id + '.json?auth=' + vuexContext.state.token, deletedPost)
+                .then(res => vuexContext.commit( 'deletePost', deletedPost ) )
+                .catch(e =>console.log(e))
+            },
             setPosts(vuexContext, posts) {
                 vuexContext.commit( 'setPosts', posts )
             },
@@ -71,9 +80,9 @@ const createStore = () => {
                       localStorage.setItem( 'tokenExpiration', new Date().getTime() + Number.parseInt( res.data.expiresIn ) * 1000)
                       Cookie.set('jwt', res.data.idToken)
                       Cookie.set('expirationDate', new Date().getTime() + Number.parseInt( res.data.expiresIn ) * 1000)
-                      return axios.post('http://localhost:3000/api/track-data', {
-                          data: 'Authenticated'
-                      })
+                    //   return axios.post('http://localhost:3000/api/track-data', {
+                    //       data: 'Authenticated'
+                    //   })
                   })
                   .catch(e => console.log(e))
             },
@@ -95,7 +104,7 @@ const createStore = () => {
                     expirationDate = localStorage.getItem("tokenExpiration");
                 }
                 if(new Date().getTime() > +expirationDate || !token) {
-                    console.log('No token or invalid token')
+                    // console.log('No token or invalid token')
                     vuexContext.dispatch('logout')
                     return
                 }

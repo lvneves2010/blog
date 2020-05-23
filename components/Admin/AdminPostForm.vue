@@ -6,7 +6,7 @@
 
         <AppControlInput v-model="editedPost.thumbnail">Thumbnail Link</AppControlInput>
 
-        <AppControlInput control-type="textarea" v-model="editedPost.content">Content</AppControlInput>
+        <VueEditor v-model="editedPost.content" placeholder="Conteúdo do artigo" />
 
         <AppControlInput control-type="textarea" v-model="editedPost.previewText">Preview Text</AppControlInput>
         <AppButton type="submit">Save</AppButton>
@@ -17,11 +17,20 @@
           btn-style="cancel"
           @click="onCancel"
         >Cancel</AppButton>
+        <AppButton
+          type="button"
+          style="margin-left: 10px"
+          btn-style="cancel"
+          @click="onDelete"
+        >Delete</AppButton>
+
       </form>
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
 export default {
+    components: { VueEditor },
     props: {
         post: {
             type: Object,
@@ -45,6 +54,9 @@ export default {
         },
         onCancel() {
             this.$router.push('/admin')
+        },
+        onDelete() {
+            this.$emit( 'delete', this.post )
         }
     }
 

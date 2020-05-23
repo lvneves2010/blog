@@ -5,6 +5,7 @@
         <AppControlInput type="email" v-model="email">E-Mail Address</AppControlInput>
         <AppControlInput type="password" v-model="password">Password</AppControlInput>
         <AppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
+        <AppButton type="button" @click="back" >Home</AppButton>
         <!-- <AppButton
           type="button"
           btn-style="inverted"
@@ -39,6 +40,9 @@ export default {
       .then(() => {
         this.$router.push('/admin')
       })
+    },
+    back() {
+      this.$router.push('/')
     }
   }
 }

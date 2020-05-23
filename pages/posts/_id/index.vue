@@ -1,12 +1,13 @@
 <template>
   <div class="single-post-page">
       <section class="post">
-          <h1 class="post-title">{{loadedPost.title}}</h1>
+          <h2 class="post-title">{{loadedPost.title}}</h2>
           <div class="post-details">
             <div class="post-detail">Last Upadted on: {{ loadedPost.updatedDate | date }}</div>
               <div class="post-detail">Writen By: {{loadedPost.author}} </div>
           </div>
-          <p class="post-content">{{loadedPost.content}}</p>
+          <div class="post-content2" v-html="loadedPost.content"></div>
+          <!-- <p class="post-content">{{loadedPost.content}}</p> --> 
       </section>
       <section class="post-feedback">
           <p>Let your comment here <a href="mailto: lvneves2010@gmail.com">lvneves2010@gmail.com</a> </p>
@@ -34,11 +35,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .single-post-page {
   padding: 30px;
   text-align: center;
   box-sizing: border-box;
+}
+
+.post-content2 {
+  width: 100%
 }
 
 .post {
@@ -85,6 +90,13 @@ export default {
 .post-feedback a:hover,
 .post-feedback a:active {
   color: salmon;
+}
+
+.ql-syntax {
+    white-space: normal;
+    background-color: black;
+    color: floralwhite;
+    border-radius: 5px;
 }
 
 </style>

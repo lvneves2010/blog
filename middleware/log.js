@@ -1,3 +1,3 @@
 export default (context) => {
-    console.log( '[Middleware] The only is running' )
+    // console.log( '[Middleware] The only is running' )
 }

@@ -11,7 +11,7 @@ export default {
   head: {
     title: 'Leon - Web Development Blog',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'pt-br'
     },
     meta: [
       { charset: 'utf-8' },
@@ -81,7 +81,10 @@ export default {
       .then(res => {
         const routes = []
         for (const key in res.data) {
-          routes.push('/posts/' + key)
+          routes.push({
+            route:'/posts/' + key,
+          payload: {postData: res.data[key]}
+        })
         }
         return routes
       })
