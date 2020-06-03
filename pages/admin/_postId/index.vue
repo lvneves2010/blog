@@ -27,11 +27,15 @@ export default {
     methods : {
       onSubmit(editedPost) {
         this.$store.dispatch( 'editPost', editedPost )
-        .then(() => this.$router.push('/admin'))
+        .then(() => {
+          this.$store.dispatch( 'nuxtServerInit' )
+          this.$router.push('/admin')})
       },
       onDelete(deletedPost) {
         this.$store.dispatch( 'deletePost', deletedPost )
-        .then(() => this.$router.push('/admin'))
+        .then(() => {
+          this.$store.dispatch( 'nuxtServerInit' )
+          this.$router.push('/admin')})
       }
     }
 }

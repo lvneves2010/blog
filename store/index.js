@@ -15,7 +15,7 @@ const createStore = () => {
                 state.loadedPosts = posts
             },
             addPost(state, post) {
-                state.loadedPosts.push(post)
+                state.loadedPosts.unshift(post)
             },
             editPost(state, editedPost) {
                 const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id )
@@ -38,7 +38,7 @@ const createStore = () => {
                 .then(res => {
                     const postsArray = []
                     for ( const key in res.data ) {
-                        postsArray.push({...res.data[key], id: key})
+                        postsArray.unshift({...res.data[key], id: key})
                     }
                     vuexContext.commit( 'setPosts', postsArray )
                 })
@@ -46,7 +46,6 @@ const createStore = () => {
             },
             addPost(vuexContext, post) {
                 const createdPost = {...post, updatedDate: new Date()}
-                console.log('context token>>>', vuexContext, createdPost )
                 return axios.post('https://leon-nuxt-blog.firebaseio.com/posts.json?auth=' + vuexContext.state.token, createdPost)
                 .then(res => {
                     vuexContext.commit( 'addPost', {...createdPost, id: res.data.name} )
@@ -80,11 +79,12 @@ const createStore = () => {
                       localStorage.setItem( 'tokenExpiration', new Date().getTime() + Number.parseInt( res.data.expiresIn ) * 1000)
                       Cookie.set('jwt', res.data.idToken)
                       Cookie.set('expirationDate', new Date().getTime() + Number.parseInt( res.data.expiresIn ) * 1000)
+                    //   Cookies.set('name', 'value', { sameSite:'none' })
                     //   return axios.post('http://localhost:3000/api/track-data', {
                     //       data: 'Authenticated'
                     //   })
                   })
-                  .catch(e => console.log(e))
+                  .catch(e => alert(e))
             },
             initAuth(vuexContext, req) {
                 let token

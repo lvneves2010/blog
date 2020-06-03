@@ -22,6 +22,8 @@ export default {
         onSubmit(postData) {
             this.$store.dispatch( 'addPost', postData )
                 .then(() => {
+                    alert('post adicionado com sucesso')
+                    this.$store.dispatch( 'nuxtServerInit' )
                     this.$router.push('/admin')
                 })
         }

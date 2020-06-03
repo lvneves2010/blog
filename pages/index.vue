@@ -40,11 +40,14 @@
 
 <script>
 export default {
+  beforeMount() {
+    this.$store.dispatch( 'nuxtServerInit' )
+  },
   computed: {
     loadedPosts() {
       return this.$store.getters.loadedPosts
     }
-  }
+  },
 }
 </script>
 
